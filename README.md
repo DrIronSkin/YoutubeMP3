@@ -7,7 +7,6 @@
 - Interface graphique moderne avec Avalonia
 - Recherche d’informations vidéo à partir d’une URL YouTube
 - Téléchargement et conversion en MP3
-- Affichage du progrès de téléchargement
 - Configuration du dossier de sortie via un fichier `.env`
 
 ## Architecture du projet
@@ -37,10 +36,7 @@
 
 Téléchargez une version Windows de FFmpeg depuis l’un des liens suivants :
 
-- https://ffmpeg.org/download.html
-- https://www.gyan.dev/ffmpeg/builds/
-
-Choisissez un build statique Windows et récupérez `ffmpeg.exe`.
+- https://github.com/Tyrrrz/FFmpegBin/releases
 
 ## Installation
 
@@ -60,7 +56,6 @@ dotnet restore
 3. Placer `ffmpeg.exe` :
 
 - soit dans le dossier racine du projet,
-- soit dans un dossier référencé par la variable d’environnement `PATH`.
 
 4. Configurer le dossier de sortie :
 
@@ -89,25 +84,3 @@ dotnet run
 
 - `ffmpeg.exe` n’est pas inclus dans le dépôt.
 - Si le téléchargement échoue, vérifiez l’URL, le fichier `.env`, et la présence de `ffmpeg.exe`.
-- Si `ffmpeg.exe` est dans un dossier différent, assurez-vous qu’il est accessible via `PATH`.
-
-## Structure principale
-
-- `Program.cs` : point d’entrée de l’application
-- `App.axaml` : configuration globale Avalonia
-- `Views/MainWindow.axaml` : fenêtre principale
-- `ViewModels/MainViewModel.cs` : commandes et état de l’interface
-- `Services/YoutubeService.cs` : téléchargement et conversion
-- `Models/Video.cs` : modèle vidéo
-
-## Contributions
-
-Les améliorations possibles :
-
-- sélection du dossier de sortie via l’interface
-- prise en charge multiplateforme
-- meilleure gestion des erreurs
-
-## Licence
-
-Licence ouverte / personnaliser selon les besoins.
