@@ -32,5 +32,6 @@ Thumbs.db
 ## JetBrains Rider / IntelliJ Settings
 .idea/
 .env
+*.exe
 *.sln.imap
 *.user
