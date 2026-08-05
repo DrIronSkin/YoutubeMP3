@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,6 +11,7 @@ namespace YoutubeMP3.ViewModels;
 public partial class MainViewModel(IYoutubeService youtubeService) : ObservableObject
 {
     private readonly IYoutubeService _youtubeService = youtubeService;
+    private const string Pattern = @"^https://youtu\.be/([a-zA-Z0-9_-]{11})$";
     
     [ObservableProperty]
     private string _url = string.Empty;
@@ -30,36 +32,41 @@ public partial class MainViewModel(IYoutubeService youtubeService) : ObservableO
     [RelayCommand]
     public async Task GetVideoInformation()
     {
-        if (string.IsNullOrWhiteSpace(Url)) return;
-        try
-        {
-            StatusMessage = "Video Data Recovery";
-            CurrentVideo = await _youtubeService.TaskGetVideoInformation(Url);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            Url = string.Empty;
-            CurrentVideo = null;
-        }
+       if(!VerifyUrl(Url))
+       {
+           StatusMessage = "The video URL is not valid. Please try again.";
+           return;
+       }
+       CurrentVideo = null;
+       
+       try
+       {
+           StatusMessage = "Retrieving video data...";
+           CurrentVideo = await _youtubeService.TaskGetVideoInformation(Url);
+           StatusMessage = "The video data has been retrieved.";
+       }
+       catch (Exception ex)
+       {
+           Console.WriteLine(ex.Message);
+           Url = string.Empty;
+           CurrentVideo = null;
+       }
     }
-
-
+    
     [RelayCommand]
     public async Task Download()
-    {
-        if (string.IsNullOrWhiteSpace(Url)) return;
-        
+    { 
         try
         {
             var progress = new Progress<double>(p => ProgressValue = p);
-            StatusMessage = "Downloading....";
+            StatusMessage = "Downloading video audio....";
             IsDownloading = true;
             
             await _youtubeService.TaskDownloadVideo(Url, CurrentVideo!.Title, progress);
             
-            StatusMessage = "Download complete.";
+            StatusMessage = "Download completed.";
             Url = string.Empty;
+            IsDownloading = false;
             CurrentVideo = null;
         }
         catch (Exception ex)
@@ -69,4 +76,16 @@ public partial class MainViewModel(IYoutubeService youtubeService) : ObservableO
             CurrentVideo = null;
         }
     }
+    
+    private static bool VerifyUrl(string url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return false;
+        
+        string[] newUrl = url.Split('?');
+        Regex regex = new Regex(Pattern);
+        
+        if (!regex.IsMatch(newUrl[0])) return false;
+        
+        return true;
+    } 
 }

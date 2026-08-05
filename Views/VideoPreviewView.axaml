@@ -1,0 +1,52 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="YoutubeMP3.Views.VideoPreviewView"
+             xmlns:vm="clr-namespace:YoutubeMP3.ViewModels"
+             x:DataType="vm:MainViewModel">
+    
+    <Border Background="#313244"
+            CornerRadius="12"
+            Padding="20"
+            Margin="0,0,0,20"
+            VerticalAlignment="Stretch"
+            IsVisible="{Binding CurrentVideo, Converter={x:Static ObjectConverters.IsNotNull}}">
+            
+            <Grid RowDefinitions="2*, *">
+                    <StackPanel Grid.Row="0" Spacing="12">
+                        <TextBlock Text="{Binding CurrentVideo?.Title}" 
+                                   FontSize="32" 
+                                   FontWeight="Bold" 
+                                   Foreground="#CDD6F4" 
+                                   TextWrapping="Wrap"/>
+                                   
+                        <Grid ColumnDefinitions="*, Auto">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding CurrentVideo?.Author, StringFormat='👤 {0}'}" 
+                                       FontSize="24" 
+                                       Foreground="#A6ADC8"/>
+                                       
+                            <TextBlock Grid.Column="1"
+                                       Text="{Binding CurrentVideo?.Duration, StringFormat='⏱ {0}'}" 
+                                       FontSize="24" 
+                                       Foreground="#A6ADC8"/>
+                        </Grid>
+                    </StackPanel>
+                
+                <Button Grid.Row="1"
+                        Content="Download MP3" 
+                        Command="{Binding DownloadCommand}"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        Margin="0,15,0,0"
+                        CornerRadius="8"
+                        Padding="12"
+                        FontSize="15"
+                        Background="#A6E3A1"
+                        Foreground="#11111B"
+                        FontWeight="Bold"/>
+            </Grid>
+        </Border>
+</UserControl>
