@@ -1,0 +1,61 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:YoutubeMP3.ViewModels"
+             xmlns:models="clr-namespace:YoutubeMP3.Models"
+             x:DataType="vm:MainViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="YoutubeMP3.Views.VideoHistoryView">
+  <ScrollViewer Margin="16">
+    <ItemsControl ItemsSource="{Binding Videos}">
+        
+        <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="models:Video">
+                <Border>
+                    <Grid ColumnDefinitions="Auto, *, Auto" RowDefinitions="Auto, Auto">
+                        
+                        <StackPanel Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Title}" 
+                                       FontWeight="SemiBold" 
+                                       FontSize="14" 
+                                       Foreground="#F3F4F6" 
+                                       TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Author}" 
+                                       Foreground="#9CA3AF" 
+                                       FontSize="12" 
+                                       Margin="0,2,0,0"/>
+                        </StackPanel>
+                        
+                        <Border Grid.Column="1" Grid.Row="0" 
+                                Background="#10B981" 
+                                CornerRadius="12" 
+                                Padding="8,3" 
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <PathIcon Data="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" 
+                                          Foreground="White" 
+                                          Width="10" Height="10" 
+                                          VerticalAlignment="Center"/>
+                                <TextBlock Text="Downloaded" 
+                                           Foreground="White" 
+                                           FontSize="10" 
+                                           FontWeight="Bold" 
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <TextBlock Grid.Column="2" Grid.Row="1" 
+                                   Text="{Binding Duration, StringFormat='{}{0:mm\\:ss}'}" 
+                                   Foreground="#6B7280" 
+                                   FontSize="11" 
+                                   HorizontalAlignment="Right" 
+                                   Margin="0,6,0,0"/>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</ScrollViewer>
+</UserControl>

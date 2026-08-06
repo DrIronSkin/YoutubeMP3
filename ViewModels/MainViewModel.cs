@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -27,6 +28,14 @@ public partial class MainViewModel(IYoutubeService youtubeService) : ObservableO
     
     [ObservableProperty]
     private double _progressValue;
+
+    [ObservableProperty] 
+    private ObservableCollection<Video>? _videos = new();
+    
+    public ObservableCollection<string> Choices { get; } = new()
+    {
+        "Video", "Playlist"
+    };
     
     
     [RelayCommand]
@@ -68,6 +77,7 @@ public partial class MainViewModel(IYoutubeService youtubeService) : ObservableO
             Url = string.Empty;
             IsDownloading = false;
             CurrentVideo = null;
+            ProgressValue = 0;
         }
         catch (Exception ex)
         {
